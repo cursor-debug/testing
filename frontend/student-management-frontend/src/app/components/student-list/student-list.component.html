@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <h2>Student Management</h2>
+  
+  <!-- Alert Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-custom" role="alert">
+    {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="successMessage" class="alert alert-success alert-custom" role="alert">
+    {{ successMessage }}
+  </div>
+  
+  <!-- Search Section -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <div class="input-group">
+        <select [(ngModel)]="searchType" class="form-select" style="max-width: 150px;">
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="major">Major</option>
+        </select>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="searchTerm" 
+          (keyup.enter)="searchStudents()"
+          placeholder="Search students...">
+        <button class="btn btn-primary" type="button" (click)="searchStudents()">
+          Search
+        </button>
+        <button class="btn btn-secondary" type="button" (click)="clearSearch()">
+          Clear
+        </button>
+      </div>
+    </div>
+    <div class="col-md-4 text-end">
+      <a routerLink="/add-student" class="btn btn-success">Add New Student</a>
+    </div>
+  </div>
+  
+  <!-- Students Table -->
+  <div class="table-container">
+    <div *ngIf="students.length === 0 && !errorMessage" class="alert alert-info">
+      No students found.
+    </div>
+    
+    <table *ngIf="students.length > 0" class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Major</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students">
+          <td>{{ student.id }}</td>
+          <td>{{ student.firstName }}</td>
+          <td>{{ student.lastName }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.age }}</td>
+          <td>{{ student.major }}</td>
+          <td>
+            <button 
+              class="btn btn-sm btn-primary btn-custom" 
+              (click)="editStudent(student.id!)">
+              Edit
+            </button>
+            <button 
+              class="btn btn-sm btn-danger btn-custom" 
+              (click)="deleteStudent(student.id!)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
