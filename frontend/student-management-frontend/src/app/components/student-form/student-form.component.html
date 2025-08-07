@@ -1,0 +1,118 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="form-container">
+        <h2>{{ isEditMode ? 'Edit Student' : 'Add New Student' }}</h2>
+        
+        <!-- Alert Messages -->
+        <div *ngIf="errorMessage" class="alert alert-danger alert-custom" role="alert">
+          {{ errorMessage }}
+        </div>
+        
+        <div *ngIf="successMessage" class="alert alert-success alert-custom" role="alert">
+          {{ successMessage }}
+        </div>
+        
+        <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- First Name -->
+            <div class="col-md-6 mb-3">
+              <label for="firstName" class="form-label">First Name *</label>
+              <input 
+                type="text" 
+                class="form-control"
+                id="firstName"
+                formControlName="firstName"
+                [class.is-invalid]="isFieldInvalid('firstName')"
+                placeholder="Enter first name">
+              <div *ngIf="isFieldInvalid('firstName')" class="invalid-feedback">
+                {{ getFieldError('firstName') }}
+              </div>
+            </div>
+            
+            <!-- Last Name -->
+            <div class="col-md-6 mb-3">
+              <label for="lastName" class="form-label">Last Name *</label>
+              <input 
+                type="text" 
+                class="form-control"
+                id="lastName"
+                formControlName="lastName"
+                [class.is-invalid]="isFieldInvalid('lastName')"
+                placeholder="Enter last name">
+              <div *ngIf="isFieldInvalid('lastName')" class="invalid-feedback">
+                {{ getFieldError('lastName') }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <!-- Email -->
+            <div class="col-md-8 mb-3">
+              <label for="email" class="form-label">Email *</label>
+              <input 
+                type="email" 
+                class="form-control"
+                id="email"
+                formControlName="email"
+                [class.is-invalid]="isFieldInvalid('email')"
+                placeholder="Enter email address">
+              <div *ngIf="isFieldInvalid('email')" class="invalid-feedback">
+                {{ getFieldError('email') }}
+              </div>
+            </div>
+            
+            <!-- Age -->
+            <div class="col-md-4 mb-3">
+              <label for="age" class="form-label">Age *</label>
+              <input 
+                type="number" 
+                class="form-control"
+                id="age"
+                formControlName="age"
+                [class.is-invalid]="isFieldInvalid('age')"
+                placeholder="Age"
+                min="16"
+                max="100">
+              <div *ngIf="isFieldInvalid('age')" class="invalid-feedback">
+                {{ getFieldError('age') }}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Major -->
+          <div class="mb-3">
+            <label for="major" class="form-label">Major *</label>
+            <select 
+              class="form-select"
+              id="major"
+              formControlName="major"
+              [class.is-invalid]="isFieldInvalid('major')">
+              <option value="">Select a major</option>
+              <option *ngFor="let major of majors" [value]="major">{{ major }}</option>
+            </select>
+            <div *ngIf="isFieldInvalid('major')" class="invalid-feedback">
+              {{ getFieldError('major') }}
+            </div>
+          </div>
+          
+          <!-- Form Actions -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button 
+              type="button" 
+              class="btn btn-secondary me-md-2" 
+              (click)="cancel()">
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary"
+              [disabled]="successMessage">
+              {{ isEditMode ? 'Update Student' : 'Add Student' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
